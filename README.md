@@ -108,19 +108,3 @@ These are for debugging and presentations, not part of the inference path.
 See `tutorial.ipynb` for a runnable walkthrough of all of the above, and the integration
 report for details on wiring `predict_single` into a mobile application, plus a list of
 edge cases worth guarding against before shipping.
-
-## A few things worth knowing before you rely on this in production
-
-- `predict_single` only correctly supports the `avg`, `gauss`, and `conv` feature methods.
-  Calling it with `feature_method="cluster"` will raise a `KeyError`, because `cluster`'s
-  return dict doesn't have a `"features"` key (see `features.py`). Stick to `avg` for
-  single-image inference.
-- If the segmented region is very small, the `conv` method can return zero patches, which
-  silently produces a `NaN` feature vector (not an exception) if nothing guards against it.
-  See the integration report for a recommended fallback.
-- If segmentation finds *no* foreground pixels at all, `contour_largest` can end up
-  selecting the background as the "largest component," rather than failing loudly.
-  Worth an explicit sanity check (e.g. mask non-empty, mask not the whole frame) before
-  trusting a segmentation result.
-
-Full detail on all three, plus suggested fixes, is in the integration report.
