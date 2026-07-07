@@ -1,4 +1,6 @@
-# fecal_risk
+# Biliary Atresia
+
+Pending Translation
 
 Image-based risk classification pipeline: take an RGB image, isolate the region of
 interest in LAB colour space, turn that region into a small colour feature vector, and
